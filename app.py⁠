@@ -20,8 +20,8 @@ st.divider()
 st.subheader("1. Где я хочу жить в будущем?")
 st.image(
     "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800",
-    use_container_width=True,
-)
+    use_container_width=True,")
+
 q1 = st.radio(
     "Выбери вариант:",
     ["Турция🇹🇷", "США🇺🇸", "Япония🇯🇵"],
@@ -33,8 +33,8 @@ st.divider()
 st.subheader("2. Какое направление в разработке мне ближе всего?")
 st.image(
     "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800",
-    use_container_width=True,
-)
+    use_container_width=True,")
+
 q2 = st.radio(
     "Выбери вариант:",
     [
