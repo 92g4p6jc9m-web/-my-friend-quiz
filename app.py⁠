@@ -5,7 +5,7 @@ from streamlit_gsheets import GSheetsConnection
 
 st.set_page_config(page_title="Насколько ты меня знаешь?", page_icon="🧩")
 
-SPREADSHEET_URL = "СЮДА_ВСТАВЬ_ССЫЛКУ_НА_GOOGLE_ТАБЛИЦУ"
+SPREADSHEET_URL = "https://docs.google.com/spreadsheets/d/11JJ8ZD7iv1lVBHNyC3V4MTApLEG78YYrZsiEo1tZg4M/edit?usp=drivesdk"
 
 st.title("🧩 Насколько ты меня знаешь?")
 st.write(
