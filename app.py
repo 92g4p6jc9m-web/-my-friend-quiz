@@ -218,7 +218,7 @@ if st.button("🚀 Узнать результат"):
         try:
             conn = st.connection("gsheets", type=GSheetsConnection)
             existing_data = conn.read(spreadsheet=SPREADSHEET_URL)
-
+            import pandas as pd
             new_row = pd.DataFrame(
                 [
                     {
