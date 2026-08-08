@@ -216,7 +216,7 @@ if st.button("🚀 Узнать результат"):
 
         # Сохранение всех 10 ответов в Google Sheets
         try:
-            conn = st.connection("gsheets", type=GSheetsConnection)
+            conn = st.connection("gsheets", type="GSheetsConnection")
             existing_data = conn.read(spreadsheet=SPREADSHEET_URL)
             import pandas as pd
             new_row = pd.DataFrame(
