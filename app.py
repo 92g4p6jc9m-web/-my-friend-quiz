@@ -1,6 +1,6 @@
 import datetime
 import streamlit as st
-from st-gsheets-connection import GSheetsConnection
+from st_gsheets_connection import GSheetsConnection
 
 st.set_page_config(page_title="Насколько ты меня знаешь?", page_icon="🧩")
 
