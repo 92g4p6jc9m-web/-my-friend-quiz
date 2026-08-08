@@ -1,17 +1,11 @@
-import datetime
-import pandas as pd
 import streamlit as st
-from streamlit_gsheets import GSheetsConnection
-conn = st.connection("gsheets", type=GSheetsConnection)
 
 st.set_page_config(page_title="Насколько ты меня знаешь?", page_icon="🧩")
 
-SPREADSHEET_URL = (
-    "https://docs.google.com/spreadsheets/d/11JJ8ZD7iv1VBHnyC3V4MTAPLEG78YYrZsiEo1tZg4M/edit?usp=drivesdk"
-)
-
 st.title("🧩 Насколько ты меня знаешь?")
-st.write("Пройди тест и узнай, насколько хорошо ты ориентируешься в моих вкусах, привычках и планах!")
+st.write(
+    "Пройди тест и узнай, насколько хорошо ты ориентируешься в моих вкусах, привычках и планах!"
+)
 
 user_name = st.text_input("Введи своё имя:")
 
@@ -25,10 +19,9 @@ st.image(
 )
 q1 = st.radio(
     "Выбери вариант:",
-    ["Турция 🇹🇷", "США 🇺🇸", "Япония 🇯🇵"],
+    ["Турция🇹🇷", "США🇺🇸", "Япония🇯🇵"],
     key="q1",
 )
-
 st.divider()
 
 # Q2
@@ -47,7 +40,6 @@ q2 = st.radio(
     ],
     key="q2",
 )
-
 st.divider()
 
 # Q3
@@ -66,7 +58,6 @@ q3 = st.radio(
     ],
     key="q3",
 )
-
 st.divider()
 
 # Q4
@@ -85,7 +76,6 @@ q4 = st.radio(
     ],
     key="q4",
 )
-
 st.divider()
 
 # Q5
@@ -104,7 +94,6 @@ q5 = st.radio(
     ],
     key="q5",
 )
-
 st.divider()
 
 # Q6
@@ -118,7 +107,6 @@ q6 = st.radio(
     ["роллы🍣", "пицца🍕", "крылышки🍗", "картошка фри🍟"],
     key="q6",
 )
-
 st.divider()
 
 # Q7
@@ -132,7 +120,6 @@ q7 = st.radio(
     ["ноутбук", "косметика", "новый телефон", "самокат"],
     key="q7",
 )
-
 st.divider()
 
 # Q8
@@ -145,13 +132,12 @@ q8 = st.radio(
     "Выбери вариант:",
     [
         "Всё расписано в заметках/календаре",
-        "Держать главный план в голове",
+        "Держу главный план в голове",
         "Полная импровизация",
         "Планирую только важные события",
     ],
     key="q8",
 )
-
 st.divider()
 
 # Q9
@@ -165,7 +151,6 @@ q9 = st.radio(
     ["зима❄️", "весна🌸", "лето☀️", "осень🍂"],
     key="q9",
 )
-
 st.divider()
 
 # Q10
@@ -187,14 +172,13 @@ q10 = st.radio(
 
 st.divider()
 
-# 4. ПРОВЕРКА И СОХРАНЕНИЕ
+# РЕЗУЛЬТАТ
 if st.button("🚀 Узнать результат"):
     if not user_name.strip():
         st.warning("Пожалуйста, введи своё имя перед отправкой!")
     else:
-        # Подсчет баллов
         score = 0
-        if q1 == "США 🇺🇸":
+        if q1 == "США🇺🇸":
             score += 1
         if q2 == "Backend / Внутренние системы":
             score += 1
@@ -215,39 +199,6 @@ if st.button("🚀 Узнать результат"):
         if q10 == "Понимать любой язык с нуля":
             score += 1
 
-        # Сохранение всех 10 ответов в Google Sheets
-        try:
-            conn = st.connection("gsheets", type="GSheetsConnection")
-            existing_data = conn.read(spreadsheet=SPREADSHEET_URL)
-            
-            new_row = pd.DataFrame(
-                [
-                    {
-                        "Дата и время": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                        "Имя": user_name,
-                        "Баллы": f"{score}/10",
-                        "Ответ Q1": q1,
-                        "Ответ Q2": q2,
-                        "Ответ Q3": q3,
-                        "Ответ Q4": q4,
-                        "Ответ Q5": q5,
-                        "Ответ Q6": q6,
-                        "Ответ Q7": q7,
-                        "Ответ Q8": q8,
-                        "Ответ Q9": q9,
-                        "Ответ Q10": q10,
-                    }
-                ]
-            )
-
-            updated_df = pd.concat([existing_data, new_row], ignore_index=True)
-            conn.update(spreadsheet=SPREADSHEET_URL, data=updated_df)
-
-            st.toast("Все варианты сохранены в таблицу!", icon="📮")
-        except Exception as e:
-            st.error("Ответ зачтен на экране, но возникла задержка записи в таблицу.")
-
-        # Вывод результата
         st.subheader(f"Результат {user_name}: {score} из 10 баллов")
         if score >= 8:
             st.balloons()
@@ -256,3 +207,8 @@ if st.button("🚀 Узнать результат"):
             st.info("👍 Хороший результат! Мы действительно неплохо общаемся.")
         else:
             st.error("😜 Кажется, нам стоит получше узнать друг друга!")
+
+        st.divider()
+        st.write("📋 **Сделай скриншот этого блока и отправь мне:**")
+        st.write(f"- **Имя:** {user_name}")
+        st.write(f"- **Результат:** {score}/10")
