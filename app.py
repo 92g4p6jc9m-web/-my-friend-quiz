@@ -1,4 +1,5 @@
 import datetime
+import pandas as pd
 import streamlit as st
 fromconn = st.connection("gsheets", type="gsheets")
 conn = st.connection("gsheets", type="GSheetsConnection")
