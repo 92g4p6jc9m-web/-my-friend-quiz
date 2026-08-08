@@ -191,7 +191,7 @@ if st.button("🚀 Узнать результат"):
 st.divider()
 with st.expander("🔒 Вход для владельца (посмотреть результаты)"):
     password = st.text_input("Введи пароль для доступа:", type="password")
-    if password == "1234":  # Здесь можно указать любой свой пароль
+    if password == "2011":  # Здесь можно указать любой свой пароль
         st.subheader("📋 Список всех результатов:")
         df = pd.read_sql_query(
             "SELECT date AS 'Дата', name AS 'Имя', score AS 'Баллы' FROM results ORDER BY id DESC",
