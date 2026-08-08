@@ -1,7 +1,8 @@
 import datetime
 import pandas as pd
 import streamlit as st
-conn = st.connection("gsheets", type="GSheetsConnection")
+from streamlit_gsheets import GSheetsConnection
+conn = st.connection("gsheets", type=GSheetsConnection)
 
 st.set_page_config(page_title="Насколько ты меня знаешь?", page_icon="🧩")
 
