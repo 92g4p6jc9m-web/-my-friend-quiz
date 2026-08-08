@@ -1,0 +1,257 @@
+import datetime
+import pandas as pd
+import streamlit as st
+from streamlit_gsheets import GSheetsConnection
+
+st.set_page_config(page_title="Насколько ты меня знаешь?", page_icon="🧩")
+
+SPREADSHEET_URL = (
+    "https://docs.google.com/spreadsheets/d/11JJ8ZD7iv1VBHnyC3V4MTAPLEG78YYrZsiEo1tZg4M/edit?usp=drivesdk"
+)
+
+st.title("🧩 Насколько ты меня знаешь?")
+st.write("Пройди тест и узнай, насколько хорошо ты ориентируешься в моих вкусах, привычках и планах!")
+
+user_name = st.text_input("Введи своё имя:")
+
+st.divider()
+
+# Q1
+st.subheader("1. Где я хочу жить в будущем?")
+st.image(
+    "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800",
+    use_container_width=True,
+)
+q1 = st.radio(
+    "Выбери вариант:",
+    ["Турция 🇹🇷", "США 🇺🇸", "Япония 🇯🇵"],
+    key="q1",
+)
+
+st.divider()
+
+# Q2
+st.subheader("2. Какое направление в разработке мне ближе всего?")
+st.image(
+    "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800",
+    use_container_width=True,
+)
+q2 = st.radio(
+    "Выбери вариант:",
+    [
+        "Frontend (интерфейсы)",
+        "Backend / Внутренние системы",
+        "Мобильные игры",
+        "Кибербезопасность",
+    ],
+    key="q2",
+)
+
+st.divider()
+
+# Q3
+st.subheader("3. Чем я подзаряжаюсь для бодрости в течение дня?")
+st.image(
+    "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=800",
+    use_container_width=True,
+)
+q3 = st.radio(
+    "Выбери вариант:",
+    [
+        "Дневной сон",
+        "Любимый энергетик / кофе",
+        "Прогулка на свежем воздухе",
+        "Сладости",
+    ],
+    key="q3",
+)
+
+st.divider()
+
+# Q4
+st.subheader("4. Какой жанр сериалов или шоу я скорее выберу для отдыха?")
+st.image(
+    "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=800",
+    use_container_width=True,
+)
+q4 = st.radio(
+    "Выбери вариант:",
+    [
+        "Исторические драмы",
+        "Ситуационные комедии (ситкомы)",
+        "Ужасы и триллеры",
+        "Реалити-шоу",
+    ],
+    key="q4",
+)
+
+st.divider()
+
+# Q5
+st.subheader("5. Какой у меня стиль решения новых сложных задач?")
+st.image(
+    "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800",
+    use_container_width=True,
+)
+q5 = st.radio(
+    "Выбери вариант:",
+    [
+        "Сразу бросаюсь делать",
+        "Сначала всё глубоко изучаю и планирую",
+        "Прошу помощи у других",
+        "Откладываю до дедлайна",
+    ],
+    key="q5",
+)
+
+st.divider()
+
+# Q6
+st.subheader("6. Какой фастфуд мне нравится больше всего?")
+st.image(
+    "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800",
+    use_container_width=True,
+)
+q6 = st.radio(
+    "Выбери вариант:",
+    ["роллы🍣", "пицца🍕", "крылышки🍗", "картошка фри🍟"],
+    key="q6",
+)
+
+st.divider()
+
+# Q7
+st.subheader("7. Что я хочу больше всего на день рождения?")
+st.image(
+    "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800",
+    use_container_width=True,
+)
+q7 = st.radio(
+    "Выбери вариант:",
+    ["ноутбук", "косметика", "новый телефон", "самокат"],
+    key="q7",
+)
+
+st.divider()
+
+# Q8
+st.subheader("8. Как я отношусь к планированию своего времени?")
+st.image(
+    "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=800",
+    use_container_width=True,
+)
+q8 = st.radio(
+    "Выбери вариант:",
+    [
+        "Всё расписано в заметках/календаре",
+        "Держать главный план в голове",
+        "Полная импровизация",
+        "Планирую только важные события",
+    ],
+    key="q8",
+)
+
+st.divider()
+
+# Q9
+st.subheader("9. Какое время года мне больше всего по душе?")
+st.image(
+    "https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?w=800",
+    use_container_width=True,
+)
+q9 = st.radio(
+    "Выбери вариант:",
+    ["зима❄️", "весна🌸", "лето☀️", "осень🍂"],
+    key="q9",
+)
+
+st.divider()
+
+# Q10
+st.subheader("10. Какая суперсила мне понравилась бы больше всего?")
+st.image(
+    "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=800",
+    use_container_width=True,
+)
+q10 = st.radio(
+    "Выбери вариант:",
+    [
+        "Читать мысли",
+        "Телепортация в любую точку",
+        "Управлять временем",
+        "Понимать любой язык с нуля",
+    ],
+    key="q10",
+)
+
+st.divider()
+
+# 4. ПРОВЕРКА И СОХРАНЕНИЕ
+if st.button("🚀 Узнать результат"):
+    if not user_name.strip():
+        st.warning("Пожалуйста, введи своё имя перед отправкой!")
+    else:
+        # Подсчет баллов
+        score = 0
+        if q1 == "США 🇺🇸":
+            score += 1
+        if q2 == "Backend / Внутренние системы":
+            score += 1
+        if q3 == "Любимый энергетик / кофе":
+            score += 1
+        if q4 == "Исторические драмы":
+            score += 1
+        if q5 == "Откладываю до дедлайна":
+            score += 1
+        if q6 == "роллы🍣":
+            score += 1
+        if q7 == "ноутбук":
+            score += 1
+        if q8 == "Планирую только важные события":
+            score += 1
+        if q9 == "осень🍂":
+            score += 1
+        if q10 == "Понимать любой язык с нуля":
+            score += 1
+
+        # Сохранение всех 10 ответов в Google Sheets
+        try:
+            conn = st.connection("gsheets", type=GSheetsConnection)
+            existing_data = conn.read(spreadsheet=SPREADSHEET_URL)
+
+            new_row = pd.DataFrame(
+                [
+                    {
+                        "Дата и время": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                        "Имя": user_name,
+                        "Баллы": f"{score}/10",
+                        "Ответ Q1": q1,
+                        "Ответ Q2": q2,
+                        "Ответ Q3": q3,
+                        "Ответ Q4": q4,
+                        "Ответ Q5": q5,
+                        "Ответ Q6": q6,
+                        "Ответ Q7": q7,
+                        "Ответ Q8": q8,
+                        "Ответ Q9": q9,
+                        "Ответ Q10": q10,
+                    }
+                ]
+            )
+
+            updated_df = pd.concat([existing_data, new_row], ignore_index=True)
+            conn.update(spreadsheet=SPREADSHEET_URL, data=updated_df)
+
+            st.toast("Все варианты сохранены в таблицу!", icon="📮")
+        except Exception as e:
+            st.error("Ответ зачтен на экране, но возникла задержка записи в таблицу.")
+
+        # Вывод результата
+        st.subheader(f"Результат {user_name}: {score} из 10 баллов")
+        if score >= 8:
+            st.balloons()
+            st.success("🎉 Вау! Ты знаешь меня практически идеально!")
+        elif score >= 5:
+            st.info("👍 Хороший результат! Мы действительно неплохо общаемся.")
+        else:
+            st.error("😜 Кажется, нам стоит получше узнать друг друга!")
